@@ -13,6 +13,15 @@ const cards = {
   10: { points: 4, name: 're', value: 10, strongScore: 8 },
 };
 
+const p1Cards = [...document.querySelectorAll('.player-one .cards .card')];
+const p2Cards = [...document.querySelectorAll('.player-two .cards .card')];
+const briscolaCard = document.querySelector('.briscola .card');
+const allPlayerCards = [...p1Cards, ...p2Cards];
+const tableCards = [...document.querySelectorAll('.table .cards .card')];
+const playerOneScore = document.querySelector('.player-one .score');
+const playerTwoScore = document.querySelector('.player-two .score');
+const playerSides = document.querySelectorAll('.player');
+
 let deck = [];
 let winnerIndex = 0;
 let currentTurn = 0;
@@ -23,14 +32,6 @@ const players = [
   { hand: [], collectedCards: [], score: 0 },
   { hand: [], collectedCards: [], score: 0 }
 ];
-
-const p1Cards = [...document.querySelectorAll('.player-one .cards .card')];
-const p2Cards = [...document.querySelectorAll('.player-two .cards .card')];
-const briscolaCard = document.querySelector('.briscola .card');
-const allPlayerCards = [...p1Cards, ...p2Cards];
-const tableCards = [...document.querySelectorAll('.table .cards .card')];
-const playerOneScore = document.querySelector('.player-one .score');
-const playerTwoScore = document.querySelector('.player-two .score');
 
 const shuffle = (array) => {
   var m = array.length, t, i;
@@ -76,30 +77,35 @@ const changeTurn = () => {
   currentTurn = (currentTurn === 1) ? 0 : 1;
 }
 
+const getBackgroundImage = obj => {
+  if (obj && obj.image) {
+    return `background-image: url(images/${obj.image})`;
+  }
+
+  return '';
+}
+
 const setStyles = () => {
   p1Cards.forEach((card, index) => {
-    if (players[0].hand[index]) {
-      card.style = `background-image: url(images/${players[0].hand[index].image})`;
-    } else {
-      card.style = ``;
-    }
+    card.style = getBackgroundImage(players[0].hand[index]);
   });
 
   p2Cards.forEach((card, index) => {
-    if (players[1].hand[index]) {
-      card.style = `background-image: url(images/${players[1].hand[index].image})`;
-    } else {
-      card.style = ``;
-    }
+    card.style = getBackgroundImage(players[1].hand[index]);
   });
 
   tableCards.forEach((card, index) => {
-    if (table[index]) {
-      card.style = `background-image: url(images/${table[index].image})`;
-    } else {
-      card.style = ``;
+    card.style = getBackgroundImage(table[index]);
+  });
+
+  playerSides.forEach((item, index) => {
+    item.classList.remove('player--active');
+
+    if (currentTurn === index) {
+      item.classList.add('player--active');
     }
   });
+
 
   briscolaCard.style = `background-image: url(images/${briscola.image})`;
 }
@@ -166,8 +172,6 @@ const nextHand = () => {
 };
 
 const render = () => {
-  setStyles();
-  renderScore();
 
   if (table.length === 1) {
     changeTurn();
@@ -179,6 +183,9 @@ const render = () => {
 
     nextHand();
   }
+
+  renderScore();
+  setStyles();
 };
 
 const getStrongerCardIndex = (card1, card2) => {

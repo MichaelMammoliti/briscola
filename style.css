@@ -1,9 +1,22 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: green;
+}
+
 .table {
   width: 100%;
   height: 300px;
   display: flex;
   justify-content: center;
   align-items: center;
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 .cards {
@@ -20,23 +33,82 @@
 .card {
   width: 160px;
   height: 240px;
-  background: #ddd;
+  margin-right: 10px;
   background-size: contain;
   background-position: center;
   background-repeat: no-repeat;
+  position: relative;
 }
+
 .score {
   font-size: 50px;
+  display: none;
 }
 
 .briscola {
   transform: rotate(-90deg);
 }
 
-.player-one,
-.player-two {
+.player {
   display: flex;
   align-items: center;
   justify-content: center;
+  position: absolute;
+  width: 100%;
+}
+
+.player::before {
+  content: '';
+  position: absolute;
+  width: 500px;
+  height: 200px;
+  box-shadow: 0px 0px 600px 100px rgb(255, 255, 255, 1);
+  border-radius: 50%;
+  opacity: 0;
+}
+
+.player.player--active::before {
+  opacity: 1;
+}
+
+.player-one::before {
+  top: -200px;
+}
+
+.player-two::before {
+  bottom: -200px;
+}
+
+.player-one {
+  top: 0;
+  left: 0;
+}
+.player-two {
+  bottom: 0;
+  left: 0;
+}
+
+.player-one .cards {
+  transform: rotate(180deg);
+}
+
+.player-two .card:hover {
+  transform: scale(1.1);
+}
+
+@media(max-width: 640px) {
+  .card {
+    height: 160px;
+    width: 100px;
+  }
+
+  .wrapper {
+    margin-right: -100px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
 }
 
