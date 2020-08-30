@@ -13,6 +13,17 @@ const cards = {
   10: { points: 4, name: 're', value: 10, strongScore: 8 },
 };
 
+let deck = [];
+let winnerIndex = 0;
+let currentTurn = 0;
+let currentSuit;
+let table = [];
+let briscola;
+const players = [
+  { hand: [], collectedCards: [], score: 0 },
+  { hand: [], collectedCards: [], score: 0 }
+];
+
 const p1Cards = [...document.querySelectorAll('.player-one .cards .card')];
 const p2Cards = [...document.querySelectorAll('.player-two .cards .card')];
 const briscolaCard = document.querySelector('.briscola .card');
@@ -20,26 +31,6 @@ const allPlayerCards = [...p1Cards, ...p2Cards];
 const tableCards = [...document.querySelectorAll('.table .cards .card')];
 const playerOneScore = document.querySelector('.player-one .score');
 const playerTwoScore = document.querySelector('.player-two .score');
-
-let deck = [];
-let winnerIndex = 0;
-let currentTurn = 0;
-let currentSuit;
-let table = [];
-const players = [
-  {
-    hand: [],
-    collectedCards: [],
-    score: 0,
-  },
-  {
-    hand: [],
-    collectedCards: [],
-    score: 0,
-  }
-];
-
-let briscola;
 
 const shuffle = (array) => {
   var m = array.length, t, i;
